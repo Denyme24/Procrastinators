@@ -100,7 +100,6 @@ export const onNewSensorReading = functions.database
     const readingId = context.params.readingId as string;
     const reading = snapshot.val() as SensorReading;
     if (!reading || typeof reading.temperature_celsius !== 'number' || typeof reading.humidity !== 'number') {
-      console.log('Skipping invalid reading', reading);
       return null;
     }
 
@@ -109,7 +108,6 @@ export const onNewSensorReading = functions.database
     const decision = mlDecision ?? decideWithThreshold(reading)!;
 
     if (!decision.isHigh) {
-      console.log('Reading within range. No alert.');
       return null;
     }
 

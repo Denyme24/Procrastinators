@@ -90,7 +90,6 @@ export default function RealTimeAlerts() {
       }
 
       const result = await response.json();
-      console.log("FCM notification sent successfully:", result);
 
       // Show success toast
       addToast({
