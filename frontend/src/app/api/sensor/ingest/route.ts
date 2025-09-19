@@ -28,12 +28,10 @@ const CONFIG = {
 
 async function decideWithMl(reading: SensorReading): Promise<MlDecision | null> {
   // Try comprehensive analysis first, then fallback to simple alert
-  console.log(`Attempting ML analysis with URL: ${CONFIG.mlAnalysisUrl}`);
   
   if (CONFIG.mlAnalysisUrl) {
     try {
       const analysisUrl = `${CONFIG.mlAnalysisUrl}/sensor-analysis`;
-      console.log(`Calling comprehensive analysis: ${analysisUrl}`);
       
       const res = await fetch(analysisUrl, {
         method: "POST",
@@ -50,23 +48,20 @@ async function decideWithMl(reading: SensorReading): Promise<MlDecision | null> 
       }
       
       const data = (await res.json()) as MlDecision;
-      console.log("Comprehensive analysis successful:", data);
       return data;
     } catch (e) {
       console.error("ML comprehensive analysis failed:", e);
-      console.log("Falling back to simple alert endpoint...");
+
     }
   }
   
   // Fallback to simple alert endpoint
   if (!CONFIG.mlUrl) {
-    console.log("No ML URL configured, using threshold-based decision");
     return null;
   }
   
   try {
     const alertUrl = `${CONFIG.mlUrl}/alert`;
-    console.log(`Calling simple alert endpoint: ${alertUrl}`);
     
     const res = await fetch(alertUrl, {
       method: "POST",
@@ -83,7 +78,6 @@ async function decideWithMl(reading: SensorReading): Promise<MlDecision | null> 
     }
     
     const data = (await res.json()) as MlDecision;
-    console.log("Simple alert analysis successful:", data);
     return data;
   } catch (e) {
     console.error("ML decision failed:", e);

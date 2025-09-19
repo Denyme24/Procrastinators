@@ -71,8 +71,6 @@ export async function POST(req: NextRequest) {
     // Send FCM notification
     const messageId = await messaging.send(fcmMessage);
 
-    console.log("FCM notification sent successfully:", messageId);
-    console.log("Alert data sent:", alertData);
 
     return NextResponse.json({ 
       success: true, 
